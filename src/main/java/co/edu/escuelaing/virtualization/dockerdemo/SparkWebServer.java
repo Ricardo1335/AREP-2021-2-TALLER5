@@ -15,7 +15,7 @@ public class SparkWebServer {
         port(getPort());
         get("hello", (req,res) -> "Hello Docker!");
         get("database" ,(req,res) -> {
-            mongo.addElelement("Elemento"); 
+            mongo.addElelement("Prueba"); 
             return mongo.getLast(); 
                   }); 
     }

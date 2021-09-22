@@ -13,6 +13,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoIterable;
 
 import java.net.UnknownHostException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,10 +21,14 @@ import org.bson.Document;
 
 
 public class MongoDB {
+    Integer n;
     MongoClientURI uri;
     MongoClient mongoClient;
     public MongoDB(){
-uri = new MongoClientURI("mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false");        mongoClient = new MongoClient(uri);
+        this.n = 0;
+        uri = new MongoClientURI("mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false");
+        
+        mongoClient = new MongoClient(uri);
         MongoIterable<String> list = mongoClient.listDatabaseNames();
         for (String name : list) {
             System.out.println(name);
@@ -39,9 +44,11 @@ uri = new MongoClientURI("mongodb://localhost:27017/?readPreference=primary&appn
         System.out.println(collection.countDocuments());
         Document document=new Document();
         document.put("mensaje",message);
+        document.put("fecha", LocalDateTime.now()); 
         System.out.println("entro a add1 DB");
         collection.insertOne(document);
         System.out.println("entro a add2 DB");
+        System.out.println(collection.countDocuments());
     }
     public String getLast(){
         System.out.println("entro a last DB");
@@ -51,11 +58,18 @@ uri = new MongoClientURI("mongodb://localhost:27017/?readPreference=primary&appn
         ArrayList<Document> docs = new ArrayList<Document>();
         ArrayList<String> results = new ArrayList<>();
         fit.into(docs);
+        System.out.println(docs.size());
         for (Document doc : docs) {
-            if (doc.get("mensaje")!= null && doc.get("fecha")!=null){
-                results.add(doc.get("mensaje").toString());
+            if (doc.get("mensaje")!= null){
+                   n += 1;
+                results.add("Elemento "+ n.toString() + ": " + doc.get("mensaje").toString() + "<br> Fecha de Creacion: "+ doc.get("fecha").toString()+ "<br>");
             }
+            if(results.size() >= 10 ){
+              n = 0;
+                break;
+            }
+            
         }
-        return results.toString();
+        return results.toString().replace(",", "<br>").replace("[", "").replace("]", "");
     }
 }
