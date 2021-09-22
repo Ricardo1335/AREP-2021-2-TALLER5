@@ -42,7 +42,11 @@ public class MongoDB {
         ArrayList<Document> docs = new ArrayList<Document>();
         ArrayList<String> results = new ArrayList<>();
         fit.into(docs);
-        for (Document doc : docs) {
+        ArrayList<Document> docs1 = new ArrayList<Document>();
+        for (Document docz : docs){
+            docs1.add(0, docz);
+        }
+        for (Document doc : docs1) {
             if (doc.get("mensaje")!= null){
                    n += 1;
                 results.add("Elemento "+ n.toString() + ": " + doc.get("mensaje").toString() + "<br> Fecha de Creacion: "+ doc.get("fecha").toString()+ "<br>");
