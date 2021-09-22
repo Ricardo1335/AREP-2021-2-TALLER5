@@ -18,16 +18,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bson.Document;
 
-/**
- *
- * @author jgarc
- */
+
 public class MongoDB {
     MongoClientURI uri;
     MongoClient mongoClient;
     public MongoDB(){
-        uri = new MongoClientURI("mongodb://sebs:clave@db:27017/?serverSelectionTimeoutMS=5000&connectTimeoutMS=10000&authSource=Arep&authMechanism=SCRAM-SHA-1&3t.uriVersion=3");
-        mongoClient = new MongoClient(uri);
+uri = new MongoClientURI("mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false");        mongoClient = new MongoClient(uri);
         MongoIterable<String> list = mongoClient.listDatabaseNames();
         for (String name : list) {
             System.out.println(name);

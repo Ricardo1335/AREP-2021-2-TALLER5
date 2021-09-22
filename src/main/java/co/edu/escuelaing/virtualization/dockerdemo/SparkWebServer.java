@@ -8,10 +8,7 @@ package co.edu.escuelaing.virtualization.dockerdemo;
 import com.mongodb.MongoClient;
 import java.net.UnknownHostException;
 import static spark.Spark.*;
-/**
- *
- * @author jgarc
- */
+
 public class SparkWebServer {
     public static void main(String... args) throws UnknownHostException{
         MongoDB mongo = new MongoDB();
