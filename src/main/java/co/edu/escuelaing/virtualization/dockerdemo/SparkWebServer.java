@@ -5,7 +5,6 @@
  */
 package co.edu.escuelaing.virtualization.dockerdemo;
 
-import com.mongodb.MongoClient;
 import java.net.UnknownHostException;
 import static spark.Spark.*;
 
@@ -15,10 +14,12 @@ public class SparkWebServer {
         port(getPort());
         get("hello", (req,res) -> "Hello Docker!");
         get("database" ,(req,res) -> {
+            res.type("application/json");
             mongo.addElelement("Elemento vacio"); 
             return mongo.getLast(); 
                   });
         get("database/:s" ,(req,res) -> {
+            res.type("application/json");            
             String s = req.params(":s");  
             mongo.addElelement(s); 
             return mongo.getLast(); 

@@ -32,10 +32,11 @@ public class MongoDB {
         MongoCollection<Document> collection = database.getCollection("local");
         Document document=new Document();
         document.put("mensaje",message);
-        document.put("fecha", LocalDateTime.now()); 
+        document.put("fecha", LocalDateTime.now().toString()); 
         collection.insertOne(document);
     }
     public String getLast(){
+        Document a = new Document();
         MongoDatabase database = mongoClient.getDatabase("arep");
         MongoCollection<Document> collection =database.getCollection("local");
         FindIterable fit = collection.find();
@@ -49,14 +50,14 @@ public class MongoDB {
         for (Document doc : docs1) {
             if (doc.get("mensaje")!= null){
                    n += 1;
-                results.add("Elemento "+ n.toString() + ": " + doc.get("mensaje").toString() + "<br> Fecha de Creacion: "+ doc.get("fecha").toString()+ "<br>");
+                a.append(doc.get("_id").toString(), doc);
             }
-            if(results.size() >= 10 ){
+            if(n>= 10 ){
               n = 0;
                 break;
             }
             
         }
-        return results.toString().replace(",", "<br>").replace("[", "").replace("]", "");
+       return a.toJson();
     }
 }
